@@ -168,12 +168,12 @@ if abrirBancoProfessor() == 1:
                     elif int(resp) == 2:
                         break
         elif resp == '1':
-            import CRUD_Disciplina
-            CRUD_Disciplina.main()
+            import disciplina
+            disciplina.main()
 
         elif resp == '3':
-            import CRUD_ProfessorXDisciplina
-            CRUD_ProfessorXDisciplina.main()
+            import disciplinaxprofessor
+            disciplinaxprofessor.main()
         elif resp == '4':
             print('FIM DO PROGRAMA!!!.')
 

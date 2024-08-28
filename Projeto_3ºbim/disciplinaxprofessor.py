@@ -268,12 +268,12 @@ if abrirBancoDXP() == 1:
                     else:
                         break
         elif resp == '1':
-            import CRUD_Disciplina
-            CRUD_Disciplina.main()
+            import disciplina
+            disciplina.main()
             break
         elif resp == '2':
-           import CRUD_Professor
-           CRUD_Professor.main()
+           import professor
+           professor.main()
         elif resp == '4':
             print('FIM DO PROGRAMA!!!')
 

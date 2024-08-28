@@ -154,11 +154,11 @@ if openBanco() == 1:
                print('=' * 80)
 
        elif resp == '2':
-           import CRUD_Professor
-           CRUD_Professor.main()
+           import professor
+           professor.main()
        elif resp == '3':
-           import CRUD_ProfessorXDisciplina
-           CRUD_ProfessorXDisciplina.main()
+           import disciplinaxprofessor
+           disciplinaxprofessor.main()
        else:
             print('FIM DO PROGRAMA!!!')
             break
