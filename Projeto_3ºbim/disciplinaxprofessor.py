@@ -3,8 +3,6 @@ from mysql.connector import Error
 from prettytable import PrettyTable
 
 
-
-
 def abrirBancoDXP():
   try:
       global connection
@@ -24,6 +22,7 @@ def abrirBancoDXP():
       print(f" Erro {erro}")
       return 0
 
+
 def ReadAll():
   grid= PrettyTable(["ID disciplinaxprofessor", "Curso", "Carga horaria", "ano Letivo ", "idProfessor", "idDisciplina"])
   try:
@@ -42,63 +41,60 @@ def ReadAll():
 
 
 def Readbyid(iddisciplinasxprofessores = 0):
-  grid= PrettyTable(["ID professor", "Curso", "Carga horaria", "ano Letivo ", "idProfessor", "idDisciplina"])
-  try:
-      cursor = connection.cursor()
-      Sql_select_query = f'''select * from disciplinasxprofessores where iddisciplinasxprofessores = {iddisciplinasxprofessores}'''
-      cursor.execute(Sql_select_query)
-      tabela = cursor.fetchall()
-      if cursor.rowcount > 0:
-          for registro in tabela:
-              grid.add_row([registro[0],registro[1],registro[2],registro[3],registro[4],registro[5]])
-          print(grid)
-          return  "c"
-      else:
-          return "nc"
-  except Exception as error:
-      print(f"Ocorreu um erro! {error}")
+    grid= PrettyTable(["ID professor", "Curso", "Carga horaria", "ano Letivo ", "idProfessor", "idDisciplina"])
+    try:
+        cursor = connection.cursor()
+        Sql_select_query = f'''select * from disciplinasxprofessores where iddisciplinasxprofessores = {iddisciplinasxprofessores}'''
+        cursor.execute(Sql_select_query)
+        tabela = cursor.fetchall()
+        if cursor.rowcount > 0:
+            for registro in tabela:
+                grid.add_row([registro[0],registro[1],registro[2],registro[3],registro[4],registro[5]])
+            print(grid)
+            return  "c"
+        else:
+            return "nc"
+    except Exception as error:
+        print(f"Ocorreu um erro! {error}")
+
+
+
 def ISprofessordisciplina (idProfessor,idDisciplina):
-
-
-
-
   try:
       cursor = connection.cursor()
       Sql_select_query = f"""select count(*) from disciplinasxprofessores where ID_idprofessor = {idProfessor} and ID_iddisciplina = {idDisciplina} """
       cursor.execute(Sql_select_query)
       tabela = cursor.fetchall()
 
-
-
-
       if len(tabela) > 0:
           print("0")
           return 0
       else:
           print("1")
-
-
-
-
           return 1
   except Exception as error:
       print(f"Ocorreu um erro! {error}")
+
+
 def cadastrarDXP (*x):
-  if  verificarExistenciaProfessor(idProfessores) <1:
-      return f"Erro: ID do professor {x[4]} não existe."
-  if  verificarExistenciaDisciplina(idDisciplina) <1:
-      return f"Erro: ID da disciplina {x[5]} não existe."
-  if (ISprofessordisciplina(x[4],x[5]) == 1):
+    if  verificarExistenciaProfessor(idProfessores) <1:
+        return f"Erro: ID do professor {x[4]} não existe."
+    
+    if  verificarExistenciaDisciplina(idDisciplina) <1:
+        return f"Erro: ID da disciplina {x[5]} não existe."
+    
+    if (ISprofessordisciplina(x[4],x[5]) == 1):
       try:
-          cursor = connection.cursor()
-          Sql_insert_query = f"""insert into disciplinasxprofessores (iddisciplinasxprofessores, curso, cargaHoraria, anoLetivo,ID_idProfessor,ID_idDisciplina) values (%s,%s,%s,%s,%s,%s)"""
-          cursor.execute(Sql_insert_query,x)
-          connection.commit()
-          return"cadastramento feito com sucesso!"
+        cursor = connection.cursor()
+        Sql_insert_query = f"""insert into disciplinasxprofessores (iddisciplinasxprofessores, curso, cargaHoraria, anoLetivo,ID_idProfessor,ID_idDisciplina) values (%s,%s,%s,%s,%s,%s)"""
+        cursor.execute(Sql_insert_query,x)
+        connection.commit()
+        return"cadastramento feito com sucesso!"
+      
       except Exception as error:
-          print(f"erro = {error}")
-          return "cadastro falhado!"
-  else:
+        print(f"erro = {error}")
+        return "cadastro falhado!"
+    else:
       print(f"ja existe uma combinacao! de {x[4]} e {x[5]}")
 
 
@@ -191,8 +187,6 @@ def verificarExistenciaDisciplina (idDisciplina):
       return False
 
 
-
-
 if abrirBancoDXP() == 1:
     listarDisciplinas()
     print()
@@ -203,15 +197,15 @@ if abrirBancoDXP() == 1:
     print('{:^80}'.format('SISTEMA UNIVAP - iddisciplinasxprofessores'))
     print('=' * 80)
     while (True):
-        iddisciplinasxprofessores = input("Digite o codigo do curso que deseja ver | 0-- todos")
+        iddisciplinasxprofessores = input("Digite o codigo do curso que deseja ver | 0-- todos:")
         while not iddisciplinasxprofessores.isnumeric():
-            iddisciplinasxprofessores = input("DIGITE CORRETAMENTE  o codigo do curso que deseja | 0-- todos")
+            iddisciplinasxprofessores = input("DIGITE CORRETAMENTE  o codigo do curso que deseja | 0-- todos:")
             break
         if (int(iddisciplinasxprofessores) == 0):
             ReadAll()
-            resp = input("Desejaa continuar o programa? 1- sim | 2-nao")
+            resp = input("Desejaa continuar o programa? (1-sim | 2-nao):")
             while int(resp) != 1 and int(resp) != 2:
-                resp = input("RESPOTSA INEXSISTENTE | Deseja continuar o programa? 1- sim | 2-nao")
+                resp = input("RESPOTSA INEXSISTENTE | Deseja continuar o programa? (1-sim | 2-nao):")
             if int(resp) == 1:
                 print('=' * 80)
                 print('\n')
@@ -243,8 +237,11 @@ if abrirBancoDXP() == 1:
             while not idDisciplina.isnumeric() or  verificarExistenciaDisciplina(int(idDisciplina)) < 1:
                 idDisciplina = input("ID da disciplina não existe ou não é válido. Digite CORRETAMENTE o ID da disciplina: ")
             
-            resposta= cadastrarDXP(int(iddisciplinasxprofessores),curso,int(cargaHoraria),int(anoLetivo),idProfessores,idDisciplina)
+            resposta= cadastrarDXP(int(iddisciplinasxprofessores),curso,int(cargaHoraria),int(anoLetivo),int(idProfessores),int(idDisciplina))
+            print('\n')
             print(resposta)
+            print('=' * 80)
+
         else:
             opcao = input("Escolha: [A]-Alterar [E]-Excluir [C]-Cancelar Operações ==> ")
             while opcao not in "AEC":
@@ -252,30 +249,46 @@ if abrirBancoDXP() == 1:
 
             if opcao == "A":
                 print("'Atenção: Código da disciplina não pode ser alterado:")
-                curso = input("digite novamente o nome do professor:")
-                cargaHoraria = input("Digite novamente  o telefone do professor:")
-                idadeprof = input("Digite novamente  a idade do professor:")
-                anoLetivo = input("Digite novamente o salario do professor:")
+
+                curso = input("digite novamente o nome do curso:")
+                while not curso.isalpha():
+                    curso = input("Digite CORRETAMENTE o nome do curso:")
+
+                cargaHoraria = input("Digite novamente a carga horaria:")
+                while not cargaHoraria.isnumeric():
+                    cargaHoraria = input("Digite CORRETAMENTE a cargaHoraria do curso:")
+
+                anoLetivo = input("Digite novamente o ano letivo")
+                while not anoLetivo.isnumeric():
+                    anoLetivo = input("Digite CORRETAMENTE a anoLetivo do curso:")
+
                 ID_idprofessor = input("Digite CORRETAMENTE o id do professor:")
+                while not idProfessores.isnumeric() or not verificarExistenciaProfessor(int(idProfessores)):
+                    idProfessores = input( "ID do professor não existe ou não é válido. Digite CORRETAMENTE o ID do professor: ")
+
                 ID_iddisciplina = input("Digite CORRETAMENTE o id da disciplina:")
+                while not idDisciplina.isnumeric() or  verificarExistenciaDisciplina(int(idDisciplina)) < 1:
+                    idDisciplina = input("ID da disciplina não existe ou não é válido. Digite CORRETAMENTE o ID da disciplina: ")
 
-                resposta = updateDXP(int(iddisciplinasxprofessores),curso,int(cargaHoraria),int(anoLetivo))
+                resposta = updateDXP(int(iddisciplinasxprofessores),curso,int(cargaHoraria),int(anoLetivo),int(ID_idprofessor),int(ID_iddisciplina))
+                print('\n')
                 print(resposta)
-
+                print('=' * 80)
+                
             elif opcao == "E":
-                confirma = input("Deseja mesmo exculuir?!! 1-sim | 2-nao")
+                confirma = input("Deseja mesmo exculuir?!! (1-sim | 2-nao):")
                 while int(confirma) != 1 and int(confirma) != 2:
-                    confirma = input("RESPOSTA INEXSISTENTE | Deseja mesmo exculuir?!! 1-sim | 2-nao")
+                    confirma = input("RESPOSTA INEXSISTENTE | Deseja mesmo exculuir?!! (1-sim | 2-nao):")
                 if confirma == "1":
-                    resposta = excluirDXP(int(iddisciplinasxprofessores))
+                    resposta = excluirDXP(int(iddisciplinasxprofessores))  
+                    print('\n')
                     print(resposta)
+                    print('=' * 80)
+
             print('\n')
-            print('=' * 80)
-
-
             resp = input("Desejaaa continuar o programa? 1- sim | 2-nao")
             while int(resp) != 1 and int(resp) != 2:
-                resp = input("RESPOTSA INEXSISTENTE | Deseja continuar o programa? 1- sim | 2-nao")
+                resp = input("RESPOTSA INEXSISTENTE | Deseja continuar o programa? (1-sim | 2-nao):")
             if int(resp) == 1:
                 continue
             else:

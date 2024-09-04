@@ -1,12 +1,12 @@
 try:
+   print("\n")
    print('=' * 80)
    print('{:^80}'.format('SISTEMA UNIVAP - MAIN'))
    print('=' * 80)
    while True:
        escolha = input("( 1-disciplinas | 2-professores | 3-disciplinasxprofessores | 4-sair):")
-       while not escolha.isnumeric() or int(escolha) < 1 or int(escolha) > 4:
-          resp = input(
-              "DIGITE CORRETAMENTE a consulta ( 1-disciplinas | 2-professores | 3-disciplinasxprofessores | 4-sair):")
+       while not escolha.isnumeric() or (int(escolha) < 1 or int(escolha) > 4):
+          escolha = input("DIGITE CORRETAMENTE a consulta ( 1-disciplinas | 2-professores | 3-disciplinasxprofessores | 4-sair):")
        if escolha == '1':
           import disciplina
           break

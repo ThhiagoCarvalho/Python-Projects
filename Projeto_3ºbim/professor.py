@@ -72,7 +72,6 @@ def Readbyid(idProfessor=0):
 
 def cadastrarProfessor(*x):
    try:
-       print(x)
        cursor = connection.cursor()
        Sql_insert_query = f"""insert into professores (idProfessor, nomeProfessor, telefoneProfessor, idadeProfessor, salarioProfessor) values (%s,%s,%s,%s,%s)"""
        cursor.execute(Sql_insert_query, x)
@@ -114,20 +113,21 @@ def excluirProfessor(idProfessor=0):
 
 
 if abrirBancoProfessor() == 1:
+    print("\n")
     print('=' * 80)
     print('{:^80}'.format('SISTEMA UNIVAP - PROFESSORES'))
     print('=' * 80)
     while (True):
-        codigoProf = input("Digite o codigo do professor que deseja ver | 0-- todos")
+        codigoProf = input("Digite o codigo do professor que deseja ver | 0-- todos:")
         while not codigoProf.isnumeric():
-           codigoProf = input("DIGITE CORRETAMENTE  o codigo da professor que deseja | 0-- todos")
+           codigoProf = input("DIGITE CORRETAMENTE  o codigo da professor que deseja | 0-- todos:")
            break
 
         if (int(codigoProf) == 0):
             ReadAll()
-            resp = input("Deseja continuar o programa? 1- sim | 2-nao")
+            resp = input("Deseja continuar o programa? (1-sim | 2-nao):")
             while int(resp) != 1 and int(resp) != 2:
-               resp = input("RESPOTSA INEXSISTENTE | Deseja continuar o programa? 1- sim | 2-nao")
+               resp = input("RESPOTSA INEXSISTENTE | Deseja continuar o programa? (1-sim | 2-nao):")
             if int(resp) == 1:
                 print('=' * 80)
                 print('\n')
@@ -156,7 +156,9 @@ if abrirBancoProfessor() == 1:
 
 
             resposta = cadastrarProfessor(int(codigoProf), nomeProf, telprof, int(idadeprof), float(sal))
+            print('\n')
             print(resposta)
+            print('=' * 80)
         else:
             opcao = input("Escolha: [A]-Alterar [E]-Excluir [C]-Cancelar Operações ==> ")
             while opcao not in "AEC":
@@ -168,20 +170,22 @@ if abrirBancoProfessor() == 1:
                 idadeprof = input("Digite novamente  a idade do professor:")
                 sal = input("Digite novamente o salario do professor:")
                 resposta = updateProfessor(int(codigoProf), nomeProf, telprof, int(idadeprof), int(sal))
+                print('\n')
                 print(resposta)
-
+                print('=' * 80)
+                
             elif opcao == "E":
-                confirma = input("Deseja mesmo exculuir?!! 1-sim | 2-nao")
+                confirma = input("Deseja mesmo exculuir?!! (1-sim | 2-nao):")
                 while int(confirma) != 1 and int(confirma) != 2:
-                    confirma = input("RESPOSTA INEXSISTENTE | Deseja mesmo exculuir?!! 1-sim | 2-nao")
+                    confirma = input("RESPOSTA INEXSISTENTE | Deseja mesmo exculuir?!! (1-sim | 2-nao):")
                 if confirma == "1":
                     resposta = excluirProfessor(int(codigoProf))
                     print(resposta)
                 print('\n\n')
                 print('='*80)
-                resp = input("Deseja continuar o programa? 1- sim | 2-nao")
+                resp = input("Deseja continuar o programa? (1-sim | 2-nao):")
                 while int(resp)!= 1 and int(resp)!=2:
-                    resp = input("RESPOTSA INEXSISTENTE | Deseja continuar o programa? 1- sim | 2-nao")
+                    resp = input("RESPOTSA INEXSISTENTE | Deseja continuar o programa? (1-sim | 2-nao):")
                 if int(resp) == 1:
                     continue
                 elif int(resp) ==2 :
