@@ -106,8 +106,12 @@ def excluirProfessor(idProfessor=0):
        connection.commit()
        return "Exclusao feita com sucesso!"
    except Exception as error:
+       print("\n")
+       print('=' * 80)
+
        print(f"Erro = {error}")
        return "Falha ao excluir o professor!"
+       print('=' * 80)
 
 
 
@@ -181,7 +185,7 @@ if abrirBancoProfessor() == 1:
                 if confirma == "1":
                     resposta = excluirProfessor(int(codigoProf))
                     print(resposta)
-                print('\n\n')
+                print('\n')
                 print('='*80)
                 resp = input("Deseja continuar o programa? (1-sim | 2-nao):")
                 while int(resp)!= 1 and int(resp)!=2:

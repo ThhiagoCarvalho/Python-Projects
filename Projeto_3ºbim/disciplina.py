@@ -1,7 +1,7 @@
 import mysql.connector
 from mysql.connector import Error
 from prettytable import PrettyTable
-
+import importlib
 def openBanco():
  try:
      global connection
@@ -80,6 +80,7 @@ def alterarDisciplina(idDisciplina = 0 , nomeDisciplina=''):
  except Exception as error:
      print(f"erro ao cadastrar {error}")
      return "Nao foi possivel realizar a alteracao!"
+ 
 
 def excluirDisciplina (idDisciplina = 0):
  try:
@@ -89,9 +90,10 @@ def excluirDisciplina (idDisciplina = 0):
      connection.commit()
      return "Exclusao feita com sucesso!"
  except Exception as error:
-     print(f"erro = {error}")
-     return "Nao foi possivel realizar a exclusao!"
-
+      print("\n")
+      print('=' * 80)
+      print(f"Erro = {error}")
+      return "Falha ao excluir a disciplina!"
 
 if openBanco() == 1:
     print("\n")
@@ -143,9 +145,7 @@ if openBanco() == 1:
                 if confirma == "1":
                     resposta = excluirDisciplina(int(codigoDisc))
                     print(resposta)
-                    print('\n\n')
-                    print('=' * 80)
-            print('\n\n')
+            print('\n')
             print('='*80)
             resp = input("Deseja continuar o programa? (1-sim | 2-nao):")
             while int(resp)!= 1 and int(resp)!=2:

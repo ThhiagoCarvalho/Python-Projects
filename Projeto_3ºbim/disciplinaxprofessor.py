@@ -8,6 +8,7 @@ def abrirBancoDXP():
       global connection
       connection = mysql.connector.connect(host='localhost', database='BancoUnivap', user='root', password='root123')
       if connection.is_connected():
+          global cursor
           cursor = connection.cursor()
           Sql_select_query = """select database() """
           cursor.execute(Sql_select_query)
@@ -83,7 +84,7 @@ def cadastrarDXP (*x):
     if  verificarExistenciaDisciplina(idDisciplina) <1:
         return f"Erro: ID da disciplina {x[5]} não existe."
     
-    if (ISprofessordisciplina(x[4],x[5]) == 1):
+    if (ISprofessordisciplina(x[4],x[5]) == 0):
       try:
         cursor = connection.cursor()
         Sql_insert_query = f"""insert into disciplinasxprofessores (iddisciplinasxprofessores, curso, cargaHoraria, anoLetivo,ID_idProfessor,ID_idDisciplina) values (%s,%s,%s,%s,%s,%s)"""
@@ -111,6 +112,8 @@ def updateDXP(iddisciplinasxprofessores = 0,curso= 0,cargaHoraria=0,anoLetivo=0)
   except Exception as error:
       print(f"erro = {error}")
       return "Nao foi possivel realizar a alteracao!"
+  
+
 def excluirDXP (iddisciplinasxprofessores = 0):
    try:
       cursor = connection.cursor()
@@ -121,6 +124,7 @@ def excluirDXP (iddisciplinasxprofessores = 0):
    except Exception as error:
        print(f"Erro = {error}")
        return "Falha ao excluir o professor!"
+   
 def listarProfessores():
   grid= PrettyTable(["ID professor", "Nome Professor", "telefone Professor", "salario Professor", "idade Professor"])
   try:
@@ -188,9 +192,7 @@ def verificarExistenciaDisciplina (idDisciplina):
 
 
 if abrirBancoDXP() == 1:
-    listarDisciplinas()
     print()
-    listarProfessores()
     print("\n\n")
 
     print('=' * 80)
@@ -211,6 +213,8 @@ if abrirBancoDXP() == 1:
                 print('\n')
                 continue
             elif int(resp) == 2:
+                connection.close() 
+                cursor.close()
                 import ArquivoPrincipal
                 break
 
@@ -292,8 +296,9 @@ if abrirBancoDXP() == 1:
             if int(resp) == 1:
                 continue
             else:
+              connection.close() 
+              cursor.close()
               import ArquivoPrincipal
               break
-              ArquivoPrincipal.main()
 else:
   print('FIM DO PROGRAMA!!! Algum problema existente na conexão com banco de dados.')
