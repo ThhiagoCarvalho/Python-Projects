@@ -8,7 +8,7 @@ from prettytable import PrettyTable
 def abrirBancoDXP():
   try:
       global connection
-      connection = mysql.connector.connect(host='localhost', database='BancoUnivap', user='root', password='')
+      connection = mysql.connector.connect(host='localhost', database='BancoUnivap', user='root', password='root123')
       if connection.is_connected():
           cursor = connection.cursor()
           Sql_select_query = """select database() """
@@ -194,110 +194,93 @@ def verificarExistenciaDisciplina (idDisciplina):
 
 
 if abrirBancoDXP() == 1:
-  listarDisciplinas()
-  print()
-  listarProfessores()
-  print("\n\n")
+    listarDisciplinas()
+    print()
+    listarProfessores()
+    print("\n\n")
+
+    print('=' * 80)
+    print('{:^80}'.format('SISTEMA UNIVAP - iddisciplinasxprofessores'))
+    print('=' * 80)
+    while (True):
+        iddisciplinasxprofessores = input("Digite o codigo do curso que deseja ver | 0-- todos")
+        while not iddisciplinasxprofessores.isnumeric():
+            iddisciplinasxprofessores = input("DIGITE CORRETAMENTE  o codigo do curso que deseja | 0-- todos")
+            break
+        if (int(iddisciplinasxprofessores) == 0):
+            ReadAll()
+            resp = input("Desejaa continuar o programa? 1- sim | 2-nao")
+            while int(resp) != 1 and int(resp) != 2:
+                resp = input("RESPOTSA INEXSISTENTE | Deseja continuar o programa? 1- sim | 2-nao")
+            if int(resp) == 1:
+                print('=' * 80)
+                print('\n')
+                continue
+            elif int(resp) == 2:
+                import ArquivoPrincipal
+                break
+
+        if(Readbyid(int(iddisciplinasxprofessores)) == "nc"):
+            curso = input("Digite o nome do curso:")
+            while not curso.isalpha():
+                curso = input("Digite CORRETAMENTE o nome do curso:")
+
+            cargaHoraria = input("Digite a cargaHoraria do curso:")
+            while not cargaHoraria.isnumeric():
+                cargaHoraria = input("Digite CORRETAMENTE a cargaHoraria do curso:")
+
+            anoLetivo = input("Digite a anoLetivo do curso:")
+            while not anoLetivo.isnumeric():
+                anoLetivo = input("Digite CORRETAMENTE a anoLetivo do curso:")
+
+            listarProfessores()
+            idProfessores = input("Digite o ID do professor: ")
+            while not idProfessores.isnumeric() or not verificarExistenciaProfessor(int(idProfessores)):
+                idProfessores = input( "ID do professor não existe ou não é válido. Digite CORRETAMENTE o ID do professor: ")
+
+            listarDisciplinas()
+            idDisciplina = input("Digite o ID da disciplina: ")
+            while not idDisciplina.isnumeric() or  verificarExistenciaDisciplina(int(idDisciplina)) < 1:
+                idDisciplina = input("ID da disciplina não existe ou não é válido. Digite CORRETAMENTE o ID da disciplina: ")
+            
+            resposta= cadastrarDXP(int(iddisciplinasxprofessores),curso,int(cargaHoraria),int(anoLetivo),idProfessores,idDisciplina)
+            print(resposta)
+        else:
+            opcao = input("Escolha: [A]-Alterar [E]-Excluir [C]-Cancelar Operações ==> ")
+            while opcao not in "AEC":
+                opcao = input("ESCOLHA CORRETAMENTE: [A]-Alterar [E]-Excluir [C]-Cancelar Operações ==> ")
+
+            if opcao == "A":
+                print("'Atenção: Código da disciplina não pode ser alterado:")
+                curso = input("digite novamente o nome do professor:")
+                cargaHoraria = input("Digite novamente  o telefone do professor:")
+                idadeprof = input("Digite novamente  a idade do professor:")
+                anoLetivo = input("Digite novamente o salario do professor:")
+                ID_idprofessor = input("Digite CORRETAMENTE o id do professor:")
+                ID_iddisciplina = input("Digite CORRETAMENTE o id da disciplina:")
+
+                resposta = updateDXP(int(iddisciplinasxprofessores),curso,int(cargaHoraria),int(anoLetivo))
+                print(resposta)
+
+            elif opcao == "E":
+                confirma = input("Deseja mesmo exculuir?!! 1-sim | 2-nao")
+                while int(confirma) != 1 and int(confirma) != 2:
+                    confirma = input("RESPOSTA INEXSISTENTE | Deseja mesmo exculuir?!! 1-sim | 2-nao")
+                if confirma == "1":
+                    resposta = excluirDXP(int(iddisciplinasxprofessores))
+                    print(resposta)
+            print('\n')
+            print('=' * 80)
 
 
-  while (True):
-      print('=' * 80)
-      print('{:^80}'.format('SISTEMA UNIVAP - iddisciplinasxprofessores'))
-      print('=' * 80)
-      iddisciplinasxprofessores = input("Digite o codigo do curso que deseja ver | 0-- todos")
-      while not iddisciplinasxprofessores.isnumeric():
-          iddisciplinasxprofessores = input("DIGITE CORRETAMENTE  o codigo do curso que deseja | 0-- todos")
-          break
-      if (int(iddisciplinasxprofessores) == 0):
-          ReadAll()
-          resp = input("Desejaa continuar o programa? 1- sim | 2-nao")
-          while int(resp) != 1 and int(resp) != 2:
-              resp = input("RESPOTSA INEXSISTENTE | Deseja continuar o programa? 1- sim | 2-nao")
-          if int(resp) == 1:
-              continue
-          elif int(resp) == 2:
-              import ArquivoPrincipal
-              break
-      if(Readbyid(int(iddisciplinasxprofessores)) == "nc"):
-          curso = input("Digite o nome do curso:")
-          while not curso.isalpha():
-              curso = input("Digite CORRETAMENTE o nome do curso:")
-
-
-
-
-          cargaHoraria = input("Digite a cargaHoraria do curso:")
-          while not cargaHoraria.isnumeric():
-              cargaHoraria = input("Digite CORRETAMENTE a cargaHoraria do curso:")
-
-
-
-
-          anoLetivo = input("Digite a anoLetivo do curso:")
-          while not anoLetivo.isnumeric():
-              anoLetivo = input("Digite CORRETAMENTE a anoLetivo do curso:")
-
-
-
-
-          listarProfessores()
-          idProfessores = input("Digite o ID do professor: ")
-          while not idProfessores.isnumeric() or not verificarExistenciaProfessor(int(idProfessores)):
-              idProfessores = input(
-                  "ID do professor não existe ou não é válido. Digite CORRETAMENTE o ID do professor: ")
-
-
-
-
-          listarDisciplinas()
-          idDisciplina = input("Digite o ID da disciplina: ")
-          while not idDisciplina.isnumeric() or  verificarExistenciaDisciplina(int(idDisciplina)) < 1:
-              idDisciplina = input("ID da disciplina não existe ou não é válido. Digite CORRETAMENTE o ID da disciplina: ")
-
-
-
-
-          resposta= cadastrarDXP(int(iddisciplinasxprofessores),curso,int(cargaHoraria),int(anoLetivo),idProfessores,idDisciplina)
-          print(resposta)
-      else:
-          opcao = input("Escolha: [A]-Alterar [E]-Excluir [C]-Cancelar Operações ==> ")
-          while opcao not in "AEC":
-              opcao = input("ESCOLHA CORRETAMENTE: [A]-Alterar [E]-Excluir [C]-Cancelar Operações ==> ")
-          if opcao == "A":
-              print("'Atenção: Código da disciplina não pode ser alterado:")
-              curso = input("digite novamente o nome do professor:")
-              cargaHoraria = input("Digite novamente  o telefone do professor:")
-              idadeprof = input("Digite novamente  a idade do professor:")
-              anoLetivo = input("Digite novamente o salario do professor:")
-              ID_idprofessor = input("Digite CORRETAMENTE o id do professor:")
-              ID_iddisciplina = input("Digite CORRETAMENTE o id da disciplina:")
-
-
-
-
-              resposta = updateDXP(int(iddisciplinasxprofessores),curso,int(cargaHoraria),int(anoLetivo))
-              print(resposta)
-          elif opcao == "E":
-              confirma = input("Deseja mesmo exculuir?!! 1-sim | 2-nao")
-              while int(confirma) != 1 and int(confirma) != 2:
-                  confirma = input("RESPOSTA INEXSISTENTE | Deseja mesmo exculuir?!! 1-sim | 2-nao")
-              if confirma == "1":
-                  resposta = excluirDXP(int(iddisciplinasxprofessores))
-                  print(resposta)
-          print('\n')
-          print('=' * 80)
-
-
-          resp = input("Desejaaa continuar o programa? 1- sim | 2-nao")
-          while int(resp) != 1 and int(resp) != 2:
-              resp = input("RESPOTSA INEXSISTENTE | Deseja continuar o programa? 1- sim | 2-nao")
-          if int(resp) == 1:
-              continue
-          else:
+            resp = input("Desejaaa continuar o programa? 1- sim | 2-nao")
+            while int(resp) != 1 and int(resp) != 2:
+                resp = input("RESPOTSA INEXSISTENTE | Deseja continuar o programa? 1- sim | 2-nao")
+            if int(resp) == 1:
+                continue
+            else:
               import ArquivoPrincipal
               break
               ArquivoPrincipal.main()
-
-
 else:
   print('FIM DO PROGRAMA!!! Algum problema existente na conexão com banco de dados.')
