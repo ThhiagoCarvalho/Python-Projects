@@ -137,7 +137,6 @@ if abrirBancoProfessor() == 1:
                 print('\n')
                 continue
             elif int(resp) == 2:
-                import ArquivoPrincipal
                 break
 
         if (Readbyid(int(codigoProf)) == "nc"):

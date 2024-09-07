@@ -215,7 +215,6 @@ if abrirBancoDXP() == 1:
             elif int(resp) == 2:
                 connection.close() 
                 cursor.close()
-                import ArquivoPrincipal
                 break
 
         if(Readbyid(int(iddisciplinasxprofessores)) == "nc"):

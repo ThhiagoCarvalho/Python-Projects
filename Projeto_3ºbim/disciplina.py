@@ -116,7 +116,7 @@ if openBanco() == 1:
                 print('\n')
                 continue
             elif int(resp) ==2 :
-                import ArquivoPrincipal
+               
                 break
 
         if ReadbyID(int(codigoDisc)) == 'nc':
