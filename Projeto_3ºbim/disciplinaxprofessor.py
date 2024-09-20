@@ -297,7 +297,6 @@ if abrirBancoDXP() == 1:
             else:
               connection.close() 
               cursor.close()
-              import ArquivoPrincipal
               break
 else:
   print('FIM DO PROGRAMA!!! Algum problema existente na conexão com banco de dados.')

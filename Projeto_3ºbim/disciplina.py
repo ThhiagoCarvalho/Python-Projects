@@ -155,7 +155,6 @@ if openBanco() == 1:
             elif int(resp) ==2 :
                 connection.close() 
                 cursor.close()
-                import ArquivoPrincipal
                 break
 else:
     print('FIM DO PROGRAMA!!! Algum problema existente na conexão com banco de dados.')
