@@ -1,6 +1,6 @@
 from openpyxl import Workbook, load_workbook
 import pandas as pd
-
+situcao = "REPROVADO"
 alunos_lista = []
 situcao = ""
 qtd = int(input("Deseja cadastrar quantos alunos na tabela Excel?: "))
@@ -14,7 +14,11 @@ for cont in range(qtd):
     notas_bd = float(input(f"Digite a nota do aluno {nome} na matéria BD: "))
     
     media = (notas_bd + notas_paw + notas_pooi + notas_pvb) / 4
-    situcao = "aprovado" if media >6 else "reprovado"
+    if (media > 3.75 and media <=5.9):
+        situcao = "EXAME FINAL"
+    elif(media >= 6):
+        situcao = "APROVADO"
+        
     aluno = [rm, nome, notas_pvb, notas_pooi, notas_paw, notas_bd, media,situcao]
     print(aluno)
 
@@ -62,10 +66,17 @@ elif resp == "2":
 resp_html= input("deseja criar uma pagina html para demonstrar as notas? (s/n)")
 
 
+
 if ( resp_html == 's') : 
     nomeArquivo = rm + ".html"
     arquivo = open(f'C:/Users/PC/Documents/POOI_Projects/Python-Projects/Projeto_4bim/{nomeArquivo}', 'w' , encoding='utf-8')
     body = ''
+
+    background = "rgb(29, 99, 192)"
+    if (media > 3.75 and media <=5,9):
+        background = "yellow"
+    elif(media < 3.75):
+        background = "red"
 
     html = f"""
     <!DOCTYPE html>
@@ -86,7 +97,7 @@ if ( resp_html == 's') :
 
         table{{
             margin: auto;
-            background-color: rgb(29, 99, 192);
+            background-color: {background};
             border-collapse:collapse;
 
         }}
@@ -97,11 +108,16 @@ if ( resp_html == 's') :
         #red {{
             background-color: red
         }}
+            #situacao {{
+            background-color: {background};
+        }}
         </style>
     </head>
     <body>
        <p> MATRICULA  : {rm}</p>
        <p>ALUNO: <span id="red">{nome}</span></p>
+
+       
        <table>
        <theads>
         <th>PVB</th>
@@ -119,7 +135,8 @@ if ( resp_html == 's') :
         </tr>
        </table>
 
-       <p> SITUACAO FINAL {situcao}: </p>
+       <p> SITUACAO FINAL  <span id="situacao">{situcao}</span> </p>
+
     </body>
 
     </html>"""
