@@ -5,6 +5,7 @@ alunos_lista = []
 situcao = ""
 qtd = int(input("Deseja cadastrar quantos alunos na tabela Excel?: "))
 for cont in range(qtd):
+    media = 0
     print("=-"*60)
     rm = input(f"Digite o RM do {cont+1}º aluno: ")
     nome = input(f"Digite o nome do {cont+1}º aluno: ")
@@ -19,7 +20,7 @@ for cont in range(qtd):
     elif(media >= 6):
         situcao = "APROVADO"
         
-    aluno = [rm, nome, notas_pvb, notas_pooi, notas_paw, notas_bd, media,situcao]
+    aluno = [rm, nome, notas_pvb, notas_paw, notas_bd,notas_pooi, media,situcao]
     print(aluno)
 
     alunos_lista.append(aluno) 
@@ -29,8 +30,8 @@ caminho_arquivo = "C:/Users/PC/Documents/POOI_Projects/Python-Projects/Projeto_4
 
 print("1- Adicionar os dados em uma planilha nova \n2- Adicionar os dados em planilha existente\n")
 resp = input("Digite sua escolha (1 ou 2): ")
-
 if resp == "1":
+    
     wb = Workbook()
     ws = wb.active
     ws.title = "NOTASFINAISALUNOS"
@@ -68,80 +69,82 @@ resp_html= input("deseja criar uma pagina html para demonstrar as notas? (s/n)")
 
 
 if ( resp_html == 's') : 
-    nomeArquivo = rm + ".html"
-    arquivo = open(f'C:/Users/PC/Documents/POOI_Projects/Python-Projects/Projeto_4bim/{nomeArquivo}', 'w' , encoding='utf-8')
-    body = ''
+    for aluno in alunos_lista: 
+        nomeArquivo = aluno[0] + ".html"
+        arquivo = open(f'C:/Users/PC/Documents/POOI_Projects/Python-Projects/Projeto_4bim/{nomeArquivo}', 'w' , encoding='utf-8')
+        body = ''
+        
+        background = "rgb(29, 99, 192)"
+        if (aluno[6] > 3.75 and aluno[6] <=5.9):
+            background = "yellow"
+        elif(aluno[6] < 3.75):
+            background = "red"
 
-    background = "rgb(29, 99, 192)"
-    if (media > 3.75 and media <=5,9):
-        background = "yellow"
-    elif(media < 3.75):
-        background = "red"
+        html = f"""
+        <!DOCTYPE html>
+        <html lang="UTF-8">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Notas Finais</title>
 
-    html = f"""
-    <!DOCTYPE html>
-    <html lang="UTF-8">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Notas Finais</title>
+            <style>
+            body{{    
+                text-align: center;
+                display: block;
+                justify-content: center;
+                align-items: center;
+            }}
+            p{{margin-bottom : 40px}}
 
-        <style>
-        body{{    
-            text-align: center;
-            display: block;
-            justify-content: center;
-            align-items: center;
-        }}
-        p{{margin-bottom : 40px}}
+            table{{
+                margin: auto;
+                background-color: {background};
+                border-collapse:collapse;
 
-        table{{
-            margin: auto;
-            background-color: {background};
-            border-collapse:collapse;
+            }}
+            tr{{
+                border: 1px solid;
+            }}
 
-        }}
-        tr{{
-            border: 1px solid;
-        }}
+            #red {{
+                background-color: red
+            }}
+                #situacao {{
+                background-color: {background};
+            }}
+            </style>
+        </head>
+        <body>
+        <p> MATRICULA  : {aluno[0]}</p>
+        <p>ALUNO: <span id="red">{aluno[1]}</span></p>
 
-        #red {{
-            background-color: red
-        }}
-            #situacao {{
-            background-color: {background};
-        }}
-        </style>
-    </head>
-    <body>
-       <p> MATRICULA  : {rm}</p>
-       <p>ALUNO: <span id="red">{nome}</span></p>
+        
+        <table>
+        <theads>
+            <th>PVB</th>
+            <th>PAW</th>
+            <th>BD</th>
+            <th>POOI</th>
+            <th>MEDIA</th>
+            </theads>
+            <tr>
 
-       
-       <table>
-       <theads>
-        <th>PVB</th>
-        <th>PAW</th>
-        <th>BD</th>
-        <th>POOI</th>
-        <th>MEDIA</th>
-        </theads>
-        <tr>
-        <td> {notas_pvb} </td>
-        <td> {notas_paw} </td>
-        <td> {notas_bd}</td>
-        <td> {notas_pooi}</td>
-        <td> {media}</td>
-        </tr>
-       </table>
+            <td> {aluno[2]} </td>
+            <td> {aluno[3]} </td>
+            <td> {aluno[4]}</td>
+            <td> {aluno[5]}</td>
+            <td> {aluno[6]}</td>
+            </tr>
+        </table>
 
-       <p> SITUACAO FINAL  <span id="situacao">{situcao}</span> </p>
+        <p> SITUACAO FINAL  <span id="situacao">{aluno[-1]}</span> </p>
 
-    </body>
+        </body>
 
-    </html>"""
+        </html>"""
 
 
-    arquivo.write(html)
-    print(f"Arquivo '{nomeArquivo}' criado com sucesso!")
-    arquivo.close()
+        arquivo.write(html)
+        print(f"Arquivo '{nomeArquivo}' criado com sucesso!")
+        arquivo.close()
