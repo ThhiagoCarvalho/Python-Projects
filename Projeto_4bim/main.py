@@ -11,8 +11,7 @@ def validar_notas(mensagem_input):
         try:
             while (float(valor) <= 0.0 or float(valor) > 10.0):
                 valor = input(f"DIGITE CORRETAMENTE a nota do aluno {nome} na matéria PVB: ")
-
-            return float(valor)
+            return round(float(valor), 1)
         except ValueError:
             print("DIGITE CORRETAMENTE a nota do aluno!")
 
@@ -38,7 +37,15 @@ for cont in range(int(qtd)):
     notas_paw = validar_notas(f"Digite a nota do aluno {nome} na matéria PAW: ")
     notas_bd = validar_notas(f"Digite a nota do aluno {nome} na matéria BD: ")
 
+    print(f"pvb {notas_pvb}")
+    print(f"notas_pooi {notas_pooi}")
+    print(f"notas_paw {notas_paw}")
+    print(f"notas_bd {notas_bd}")
+
+
     media = (notas_bd + notas_paw + notas_pooi + notas_pvb) / 4
+    media = round(float(media), 1)
+    print( f"nedia { media}")
     if (media > 3.75 and media <= 5.9):
         situcao = "EXAME FINAL"
     elif (media >= 6):
