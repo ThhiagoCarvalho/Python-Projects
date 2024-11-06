@@ -5,9 +5,9 @@ situcao = "REPROVADO"
 alunos_lista = []
 
 
-def validar_notas(notas):
+def validar_notas(mensagem_input):
     while True:
-        valor = input(notas)
+        valor = input(mensagem_input)
         try:
             while (float(valor) <= 0.0 or float(valor) > 10.0):
                 valor = input(f"DIGITE CORRETAMENTE a nota do aluno {nome} na matéria PVB: ")
