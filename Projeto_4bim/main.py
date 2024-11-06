@@ -37,15 +37,11 @@ for cont in range(int(qtd)):
     notas_paw = validar_notas(f"Digite a nota do aluno {nome} na matéria PAW: ")
     notas_bd = validar_notas(f"Digite a nota do aluno {nome} na matéria BD: ")
 
-    print(f"pvb {notas_pvb}")
-    print(f"notas_pooi {notas_pooi}")
-    print(f"notas_paw {notas_paw}")
-    print(f"notas_bd {notas_bd}")
+
 
 
     media = (notas_bd + notas_paw + notas_pooi + notas_pvb) / 4
     media = round(float(media), 1)
-    print( f"nedia { media}")
     if (media > 3.75 and media <= 5.9):
         situcao = "EXAME FINAL"
     elif (media >= 6):
