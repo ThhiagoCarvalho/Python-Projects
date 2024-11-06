@@ -98,7 +98,7 @@ elif resp == "2":
 print("=-" * 60)
 
 resp_html = input("\ndeseja criar uma pagina html para demonstrar as notas? (s/n): ")
-while (resp_html != "s" and resp != "n"):
+while (resp_html != "s" and resp_html != "n"):
     resp_html = input("DIGITE CORRETAMENTE (s/n): ")
 
 if (resp_html == 's'):
