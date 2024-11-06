@@ -30,7 +30,7 @@ for cont in range(int(qtd)):
         rm = input(f"DIGITE CORRETAMENTE o RM do {cont + 1}º aluno:")
 
     nome = input(f"Digite o nome do {cont + 1}º aluno: ")
-    while (not nome.isalpha()):
+    while (nome == '' or nome.isnumeric()):
         nome = input(f"DIGITE CORRETAMENTE o nome do {cont + 1}º aluno!: ")
 
     notas_pvb = validar_notas(f"Digite a nota do aluno {nome} na matéria PVB: ")
@@ -45,10 +45,8 @@ for cont in range(int(qtd)):
         situcao = "APROVADO"
 
     aluno = [rm, nome, notas_pvb, notas_paw, notas_bd, notas_pooi, media, situcao]
-    print(aluno)
 
     alunos_lista.append(aluno)
-    print(alunos_lista)
 
 caminho_arquivo = "C:/projeto_4bim/NOTASFINAISALUNOS.xlsx"
 
@@ -76,9 +74,6 @@ if resp == "1":
 
     wb.save(caminho_arquivo)
 
-    df = pd.read_excel(caminho_arquivo)
-    print(df)
-
 elif resp == "2":
     try:
         wb = load_workbook(caminho_arquivo)
@@ -88,9 +83,6 @@ elif resp == "2":
             ws.append(aluno)
 
         wb.save(caminho_arquivo)
-
-        df = pd.read_excel(caminho_arquivo)
-        print(df)
 
     except FileNotFoundError:
         print("Erro: Arquivo não encontrado. Certifique-se de que o caminho está correto.")
