@@ -25,7 +25,7 @@ for cont in range(int(qtd)):
     print("=-" * 60)
 
     rm = input(f"Digite o RM do {cont + 1}º aluno: ")
-    while (not rm.isnumeric() or len(rm) != 8):
+    while (not rm.isnumeric() or len(rm) != 6):
         rm = input(f"DIGITE CORRETAMENTE o RM do {cont + 1}º aluno:")
 
     nome = input(f"Digite o nome do {cont + 1}º aluno: ")
